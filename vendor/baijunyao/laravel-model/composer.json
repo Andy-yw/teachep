@@ -1,0 +1,20 @@
+{
+    "name": "baijunyao/laravel-model",
+    "description": "base model",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "baijunyao",
+            "email": "baijunyao@baijunyao.com"
+        }
+    ],
+    "require": {
+        "baijunyao/laravel-flash": "1.0.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Baijunyao\\LaravelModel\\": "src/"
+        }
+    }
+}

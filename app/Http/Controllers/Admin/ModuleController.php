@@ -12,11 +12,7 @@ use Symfony\Component\HttpKernel\EventListener\ValidateRequestListener;
 
 class ModuleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    //获取模块列表
     public function index()
     {
         $data = Module::withTrashed()->orderBy('module_sort','desc')->get();
@@ -24,22 +20,13 @@ class ModuleController extends Controller
         return view('admin.module.index', $assign);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    //添加模块视图加载
     public function create()
     {
         return view('admin.module.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    //添加模块
     public function store(Store $request, Module $moduleModel)
     {
         $data = $request->except('_token');
@@ -51,12 +38,7 @@ class ModuleController extends Controller
         return redirect('admin/module/index');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //编辑模块视图加载
     public function edit($id)
     {
         $data = Module::where('id', $id)->first();
@@ -64,13 +46,7 @@ class ModuleController extends Controller
         return view('admin.module.edit', $assign);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //编辑模块
     public function update(Update $request, $id, Module $moduleModel)
     {
         $map = [
@@ -84,13 +60,7 @@ class ModuleController extends Controller
         }
         return redirect()->back();
     }
-    /**
-     * 分类排序
-     *
-     * @param Request $request
-     * @param Category $categoryModel
-     * @return \Illuminate\Http\RedirectResponse
-     */
+   //模块排序
     public function sort(Request  $request, Module $moduleModel)
     {
         $data = $request->except('_token');
@@ -109,16 +79,7 @@ class ModuleController extends Controller
         return redirect('admin/module/index');
     }
 
-
-
-    /**
-     * 彻底删除分类
-     *
-     * @param          $id
-     * @param Category $categoryModel
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
+    //彻底删除模块
     public function forceDelete($id, Module $moduleModel)
     {
         $moduleModel->where('id', $id)->forceDelete();

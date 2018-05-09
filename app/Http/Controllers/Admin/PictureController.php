@@ -12,18 +12,14 @@ use Cache;
 
 class PictureController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    //轮播图列表
     public function index()
     {
         $data = Picture::withTrashed()->orderBy('picture_sort','desc')->get();
         $assign = compact('data');
         return view('admin.Picture.index', $assign);
     }
-
+    //轮播图上传
     public function uploadImage()
     {
 
@@ -44,22 +40,13 @@ class PictureController extends Controller
         }
         return response()->json($data);
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    //轮播图添加视图加载
     public function create()
     {
         return view('admin.Picture.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    //轮播图添加
     public function store(Store $request, Picture $PictureModel)
     {
         $data = $request->except('_token');
@@ -71,12 +58,7 @@ class PictureController extends Controller
         return redirect('admin/picture/index');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //轮播图编辑视图加载
     public function edit($id)
     {
         $data = Picture::find($id);
@@ -84,13 +66,7 @@ class PictureController extends Controller
         return view('admin.Picture.edit', $assign);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //轮播图编辑
     public function update(Update $request, $id, Picture $PictureModel)
     {
         $map = [
@@ -106,32 +82,7 @@ class PictureController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id, Category $categoryModel)
-    {
-        $map = [
-            'id' => $id
-        ];
-        $result = $categoryModel->destroyData($map);
-        if ($result) {
-            // 更新缓存
-            Cache::forget('common:category');
-        }
-        return redirect('admin/category/index');
-    }
-
-    /**
-     * 分类排序
-     *
-     * @param Request $request
-     * @param Category $categoryModel
-     * @return \Illuminate\Http\RedirectResponse
-     */
+    //轮播图排序
     public function sort(Request  $request,Picture $PictureModel)
     {
         $data = $request->except('_token');
@@ -149,14 +100,7 @@ class PictureController extends Controller
         }
         return redirect()->back();
     }
-    /**
-     * 彻底删除分类
-     *
-     * @param          $id
-     * @param Category $categoryModel
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
+    //彻底删除轮播图
     public function forceDelete($id, Picture $PictureModel)
     {
         $PictureModel->where('id', $id)->forceDelete();

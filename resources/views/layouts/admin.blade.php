@@ -2,19 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>@yield('title') - laravel-bjyblog</title>
+    <title>@yield('title') 教育系统管理平台</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- admincsss -->
-    <link href="{{ asset('css/admin/bootstrap.css') }}" rel="stylesheet" />
-    <!-- FONTAWESOME STYLES-->
-    <link href="{{ asset('css/admin/font-awesome.css') }}" rel="stylesheet" />
-    <!--CUSTOM BASIC STYLES-->
-    <link href="{{ asset('css/admin/basic.css') }}" rel="stylesheet" />
-    <!-- GOOGLE FONTS-->
-    <link href="{{ asset('css/admin/fileinput.css') }}" media="all" rel="stylesheet" type="text/css" />
 
+    <link href="{{ asset('css/admin/fileinput.css') }}" media="all" rel="stylesheet" type="text/css" />
     <!-- 后台框架css-->
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="{{ asset('css/admin/bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
@@ -22,8 +15,6 @@
     <link rel="stylesheet" href="{{ asset('css/admin/bower_components/font-awesome/css/font-awesome.min.css') }}">
     <!-- Ionicons -->
     <link rel="stylesheet" href="{{ asset('css/admin/bower_components/Ionicons/css/ionicons.min.css') }}">
-    <!-- jvectormap -->
-    <link rel="stylesheet" href="{{ asset('css/admin/bower_components/jvectormap/jquery-jvectormap.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('css/admin/AdminLTE.min.css') }}">
     <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
@@ -54,24 +45,14 @@
             <!-- Navbar Right Menu -->
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
-                    <!-- User Account: style can be found in dropdown.less -->
+                    <!-- 个人账户信息 -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="{{ asset('js/admin/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
                             <span class="hidden-xs">  {{ session('user.name') }}</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <!-- User image -->
-
-                            <!-- Menu Body -->
-                            <li class="user-header">
-                                <img src="{{ asset('js/admin/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
-                                <p>
-                                    财务主管
-                                    <small>2016年05月24日入职</small>
-                                </p>
-                            </li>
-                            <!-- Menu Footer-->
+                            <!-- 个人操作 -->
                             <li class="user-footer">
                                                                                                                                                             <div class="pull-left">
                                     <a href="#" class="btn btn-default btn-flat">个人信息</a>
@@ -322,7 +303,6 @@
                         </a>
                     </li>
                 </ul>
-                <!-- /.control-sidebar-menu -->
 
                 <h3 class="control-sidebar-heading">Tasks Progress</h3>
                 <ul class="control-sidebar-menu">
@@ -375,12 +355,8 @@
                         </a>
                     </li>
                 </ul>
-                <!-- /.control-sidebar-menu -->
-
             </div>
-            <!-- /.tab-pane -->
 
-            <!-- Settings tab content -->
             <div class="tab-pane" id="control-sidebar-settings-tab">
                 <form method="post">
                     <h3 class="control-sidebar-heading">General Settings</h3>
@@ -395,8 +371,6 @@
                             Some information about this general settings option
                         </p>
                     </div>
-                    <!-- /.form-group -->
-
                     <div class="form-group">
                         <label class="control-sidebar-subheading">
                             Allow mail redirect
@@ -407,8 +381,6 @@
                             Other sets of options are available
                         </p>
                     </div>
-                    <!-- /.form-group -->
-
                     <div class="form-group">
                         <label class="control-sidebar-subheading">
                             Expose author name in posts
@@ -419,67 +391,44 @@
                             Allow the user to show his name in blog posts
                         </p>
                     </div>
-                    <!-- /.form-group -->
-
                     <h3 class="control-sidebar-heading">Chat Settings</h3>
-
                     <div class="form-group">
                         <label class="control-sidebar-subheading">
                             Show me as online
                             <input type="checkbox" class="pull-right" checked>
                         </label>
                     </div>
-                    <!-- /.form-group -->
-
                     <div class="form-group">
                         <label class="control-sidebar-subheading">
                             Turn off notifications
                             <input type="checkbox" class="pull-right">
                         </label>
                     </div>
-                    <!-- /.form-group -->
-
                     <div class="form-group">
                         <label class="control-sidebar-subheading">
                             Delete chat history
                             <a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
                         </label>
                     </div>
-                    <!-- /.form-group -->
                 </form>
             </div>
-            <!-- /.tab-pane -->
         </div>
     </aside>
-    <!-- /.control-sidebar -->
-    <!-- Add the sidebar's background. This div must be placed
-         immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>
 
 </div>
-<!-- ./wrapper -->
 
 <!-- jQuery 3 -->
 <script src="{{ asset('js/admin/jquery/dist/jquery.min.js') }}"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="{{ asset('js/admin/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-<!-- FastClick -->
-<script src="{{ asset('js/admin/fastclick/lib/fastclick.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('js/admin/adminlte.min.js') }}"></script>
 <!-- Sparkline -->
 <script src="{{ asset('js/admin/jquery-sparkline/dist/jquery.sparkline.min.js') }}"></script>
-<!-- jvectormap  -->
-<script src="{{ asset('js/admin/jvectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
-<script src="{{ asset('js/admin/jvectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
 <!-- SlimScroll -->
 <script src="{{ asset('js/admin/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
-<!-- ChartJS -->
-<script src="{{ asset('js/admin/Chart.js/Chart.js') }}"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{ asset('js/admin/dist/js/pages/dashboard2.js') }}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{ asset('js/admin/dist/js/demo.js') }}"></script>
+
 </body>
 @yield('js')
 </body>

@@ -10,11 +10,7 @@ use Cache;
 
 class ArticleTypeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    //文章分类列表
     public function index()
     {
         $articleType = ArticleType::paginate(2);
@@ -22,22 +18,13 @@ class ArticleTypeController extends Controller
         return view('admin.articletype.index',$assign);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   //文章分类添加视图加载
     public function create()
     {
         return view('admin.articletype.create');
     }
-    /**
-     * 添加文章类型
-     *
-     * @param Store $request
-     * @param Article $article
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
+
+    //文章分类添加操作
     public function store(Store $request, ArticleType $ArticleType)
     {
 
@@ -50,12 +37,7 @@ class ArticleTypeController extends Controller
         return redirect('admin/articletype/index');
     }
 
-    /**
-     * 文章类型编辑视图输出
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //文章类型编辑视图输出
     public function edit($id)
     {
         $data = ArticleType::withTrashed()->find($id);
@@ -64,14 +46,7 @@ class ArticleTypeController extends Controller
         return view('admin.articletype.edit',$assign);
     }
 
-    /**
-     * 编辑文章
-     *
-     * @param Store $request
-     * @param ArticleType $ArticleTypeModel
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
+    //编辑文章
     public function update(Store $request, ArticleType $ArticleTypeModel,$id)
     {
         $map = [
@@ -85,14 +60,8 @@ class ArticleTypeController extends Controller
         }
         return redirect()->back();
     }
-    /**
-     * 彻底删除文章类型
-     *
-     * @param         $id
-     * @param Article $articleModel
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
+
+   //彻底删除文章类型
     public function forceDelete($id, ArticleType $ArticleTypeModel)
     {
         $ArticleTypeModel->where('id', $id)->forceDelete();

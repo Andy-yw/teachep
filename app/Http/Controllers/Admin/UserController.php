@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Identity;
+use App\Models\School;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -21,29 +23,38 @@ class UserController extends Controller
         $num=$request->input('num');
         $pagenow=$request->input('pagenow');
         $user_name=$request->input('user_name');
-    //    $school_name=$request->input('school_name');
+        $school_name=$request->input('school_name');
         $user_status=$request->input('user_status');
         $where=array();
         if(!empty($user_name)){
             $userwhere=array("user_name","like","%".$user_name."%");
             array_push($where,$userwhere);
         }
-     /*   if(!empty($school_name)){
-            $userwhere=array("school_name","like","%".$school_name."%");
-            array_push($where,$userwhere);
-        }*/
-        //var_dump(empty($user_status));
-        if(!empty($user_status)||$user_status==0){
+
+        if(!empty($user_status)){
             $where['user_status']=$user_status;
         }
+
         $startpage=($pagenow-1)*$num;
-        $userList=$User->getBackUserList($where,$startpage,$num);
+        $userList=$User->getBackUserList($where,$startpage,$num,$school_name);
         $return['status']=1;
         $return['data']=$userList;
         $return['msg']="success";
         return response()->json($return);
 
     }
+    public function getUserDetail(Request $request)
+    {
+        $User=new User();
+        $id=$request->input('id');
+        $userList=$User->getUserDetail($id);
+        $return['status']=1;
+        $return['data']=$userList;
+        $return['msg']="success";
+        return response()->json($return);
+
+    }
+
     //用户图片上传
     public function uploadImage()
     {

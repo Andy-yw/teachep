@@ -11,6 +11,7 @@ use App\Models\Attribute;
 use App\Models\Chapter;
 use App\Models\User;
 use App\Models\File;
+use App\Models\UserFile;
 use App\Models\Comment;
 use App\Models\Footprint;
 use App\Models\Collection;
@@ -37,7 +38,7 @@ class CourseController extends Controller
 		$user_id=request()->input('user_id');
         $data['course'] = $Course->getCourseDetail($id,$user_id);
         $Chapter = new Chapter();
-        $data['chapter_list'] = $Chapter->getHomeChapterList($id);
+        $data['chapter_list'] = $Chapter->getHomeChapterList($id,$user_id);
         $message['msg']=null;
 		//if()
         $return = [
@@ -224,9 +225,9 @@ class CourseController extends Controller
         $Comment = new Comment();
         $pagenow=($pagenow-1)*$num;
         $list= $Comment->getHomeCommentList($id,$num,$pagenow);
-        $listtwo=null;
+        $listtwo=array();
 		// dd($list);die;
-       foreach ($list['list'] as $key=>$value){
+        foreach ($list['list'] as $key=>$value){
 		  
 		    $listtwo[$key]['id']=$value['id'];
             $listtwo[$key]['user_name']=$value['User']['user_name'];
@@ -289,12 +290,29 @@ class CourseController extends Controller
 	   
         return response()->json($data);
     }
+	    // 获取前端文件列表信息
+    public function getImageTextFileList()
+    {
+		$id=request()->input('id');
+		$userid=request()->input('userid');
+        $File = new File();
+        $list= $File->getHomeImageTextFileList($id,$userid);
+	    if(!empty($list)){
+		   $data['file_list']=$list;
+		  // $data['pageallnum']=$list['pageallnum'];
+		}
+		else
+	       $data['file_list']=array();
+	   
+        return response()->json($data);
+    }
 	 // 获取前端自章节详情
     public function getImageTextDetail()
     {
 		$id=request()->input('id');
+		$user_id=request()->input('user_id');
         $ImageText = new ImageText();
-        $listDetail= $ImageText->getImageTextDetail($id);
+        $listDetail= $ImageText->getImageTextDetail($id,$user_id);
 	    if(!empty($listDetail)){
 		   $data['image_text_detail']=$listDetail;
 		  // $data['pageallnum']=$list['pageallnum'];

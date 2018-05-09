@@ -9,13 +9,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Cache;
 
-class VirtualController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+class VirtualController extends Controller{
+    //虚拟机列表
     public function index()
     {
         $attribute = Attribute::withTrashed()->orderBy('created_at')->get();
@@ -24,22 +19,13 @@ class VirtualController extends Controller
         return view('admin.virtual.index', $assign);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    //虚拟机添加视图加载
     public function create()
     {
         return view('admin.virtual.create');
     }
 
-    /**
-     *添加课程属性
-     * @param Store $request
-     * @param Article $article
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
+    //虚拟机添加
     public function store(Store $request, Attribute $attributeModel)
     {
         $data = $request->except('_token');
@@ -50,28 +36,18 @@ class VirtualController extends Controller
         }
         return redirect('admin/attribute/index');
     }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
+    //虚拟机编辑视图加载
     public function edit($id)
     {
         $data = Attribute::where('id', $id)->first();
         $assign = compact('data');
         return view('admin.Attribute.edit', $assign);
     }
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
+    //虚拟机编辑
     public function update(Update $request,$id, Attribute $attributeModel)
     {
-      
         $map = [
             'id' => $id
         ];
@@ -83,17 +59,10 @@ class VirtualController extends Controller
        }
        return redirect()->back();
     }
-    /**
-     * 彻底删除分类
-     *
-     * @param          $id
-     * @param Category $categoryModel
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
+
+    //彻底删除虚拟机
     public function forceDelete($id, Attribute $attributeModel)
     {
-
         $attributeModel->where('id', $id)->forceDelete();
         return redirect('admin/attribute/index');
     }

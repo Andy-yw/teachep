@@ -27,7 +27,28 @@ class CourseController extends Controller
         $course=new Course();
         $num=$request->input('num');
         $pagenow=$request->input('pagenow');
+        $course_name=$request->input('course_name');
+        $course_type_id=$request->input('course_type_id');
+        $starttime=$request->input('starttime');
+        $endtime=$request->input('endtime');
+        $status=$request->input('status');
         $where=array();
+        if(!empty($course_type_id)){
+            $where['course_type_id']=$course_type_id;
+        }
+        if(!empty($starttime)&&!empty($endtime)){
+            $userwhere=array("created_at",">=",$starttime);
+            array_push($where,$userwhere);
+            $userwhere=array("created_at","<=",$endtime);
+            array_push($where,$userwhere);
+        }
+        if(!empty($status)){
+            $where['course_status']=$status;
+        }
+        if(!empty($course_name)){
+            $userwhere=array("course_name","like","%".$course_name."%");
+            array_push($where,$userwhere);
+        }
         $startpage=($pagenow-1)*$num;
         $course=$course->getBackCourseList($where,$startpage,$num);
         $return['status']=1;
@@ -35,7 +56,26 @@ class CourseController extends Controller
         $return['msg']="success";
         return response()->json($return);
     }
-
+    //课程课程类型获取接口
+    public function getCourseTypeList()
+    {
+        $CourseType=new CourseType();
+        $courselist=$CourseType->getCouserTypeList(1);
+        if ($courselist) {
+            $data = [
+                'status' => 1,
+                'msg' => 'success',
+                'data' => $courselist
+            ];
+        }else{
+            $data = [
+                'status' => 0,
+                'msg' => 'fail',
+                'data' => ''
+            ];
+        }
+        return response()->json($data);
+    }
     //课程添加视图加载
     public function create()
     {

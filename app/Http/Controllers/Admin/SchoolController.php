@@ -10,11 +10,7 @@ use Cache;
 
 class SchoolController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    //学校列表
     public function index()
     {
        $schoolList = School::paginate(2);
@@ -22,23 +18,13 @@ class SchoolController extends Controller
         return view('admin.school.index',$assign);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    //学校添加视图加载
     public function create()
     {
         return view('admin.school.create');
     }
 
-    /**
-     * 添加学校
-     *
-     * @param Store $request
-     * @param  School $School
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
+    //添加学校
     public function store(Store $request, School $School)
     {
         $data = $request->except('_token');
@@ -50,12 +36,7 @@ class SchoolController extends Controller
         return redirect('admin/school/index');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    //学校编辑视图加载
     public function edit($id)
     {
         $data = School::withTrashed()->find($id);
@@ -63,14 +44,7 @@ class SchoolController extends Controller
         return view('admin.school.edit', $assign);
     }
 
-    /**
-     * 编辑学校
-     *
-     * @param Store $request
-     * @param School $SchoolModel
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
+    //学校编辑
     public function update(Store $request, School $SchoolModel,$id)
     {
         $map = [
@@ -85,19 +59,14 @@ class SchoolController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * 彻底删除学校
-     *
-     * @param         $id
-     * @param Article $articleModel
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
+    //彻底删除学校
     public function forceDelete($id, School $SchoolModel)
     {
         $SchoolModel->where('id', $id)->forceDelete();
         return redirect('admin/school/index');
     }
+
+    //post请求模拟发送
     function request_post($url = '', $param = '') {
         if (empty($url) || empty($param)) {
             return false;

@@ -102,6 +102,7 @@ class IndexController extends Controller
         $filter_direction=request()->input('filter_direction');
 		$filter_classify=request()->input('filter_classify');
 		$filter_type=request()->input('filter_type');
+		$filter_name=request()->input('filter_name');
 		$sort=request()->input('sort');
 		$hard=request()->input('hard');
 		$now_page=request()->input('now_page');
@@ -116,6 +117,10 @@ class IndexController extends Controller
         }
         if(!empty($filter_type)){
             $where['course_type_id']=$filter_type;
+        }
+		if(!empty($filter_name)){
+            $userwhere=array("course_name","like","%".$filter_name."%");
+            array_push($where,$userwhere);
         }
 		
        if(!empty($hard)){

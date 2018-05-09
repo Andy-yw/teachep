@@ -12,11 +12,7 @@ use Cache;
 
 class CourseTypeController extends Controller
 {
-    /**
-     * 获取课程类型列表接口
-     *
-     * @return \Illuminate\Http\Response
-     */
+    //获取课程类型列表接口
     public function index($pagenow=1, CourseType $CourseType)
     {
          $courselist=$CourseType->getCouserTypeList(1);
@@ -24,24 +20,14 @@ class CourseTypeController extends Controller
          return view('admin.courseType.index', $assign);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   //课程类型添加视图加载
     public function create(CourseType $CourseType)
     {
         $courselist=$CourseType->getCouserTypeList(1);
         $assign = compact('courselist');
         return view('admin.courseType.create', $assign);
     }
-    /**
-     * 添加课程类目
-     *
-     * @param Store $request
-     * @param Article $article
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
+    //添加课程类目
     public function store(Store $request, CourseType $CourseTypeModel)
     {
         $data = $request->except('_token');
@@ -52,12 +38,7 @@ class CourseTypeController extends Controller
         return redirect('admin/courseType/index');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   //课程类别编辑视图加载
     public function edit($id,CourseType $CourseType)
     {
         $data = CourseType::where('id', $id)->first();
@@ -66,15 +47,7 @@ class CourseTypeController extends Controller
         return view('admin.CourseType.edit', $assign);
     }
 
-    /**
-     * 编辑文章
-     *
-     * @param Store $request
-     * @param Article $articleModel
-     * @param ArticleTag $articleTagModel
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
+    //编辑课程类别
     public function update(Update $request,$id, CourseType $CourseType)
     {
        $map = [
@@ -88,14 +61,8 @@ class CourseTypeController extends Controller
         }
         return redirect()->back();
     }
-    /**
-     * 彻底删除分类
-     *
-     * @param          $id
-     * @param Category $categoryModel
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
+
+    //彻底删除课程类别
     public function forceDelete($id, CourseType $CourseType)
     {
         $CourseType->where('id', $id)->forceDelete();

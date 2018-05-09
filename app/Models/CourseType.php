@@ -31,7 +31,7 @@ class CourseType extends Base
                 $typelist2[$num]['couser_type_name']=$value->couser_type_name;
                 $typelist[$num]=$value;
                 if($flag==1)
-                     $typelist[$num]['couser_type_name']="\t├──".$value->couser_type_name;
+                    $typelist[$num]['couser_type_name']="\t├──".$value->couser_type_name;
                 $typelist[$num]['parent_type_name']=$item->couser_type_name;
                 $pid=$value['id'];
                 $chlist2= CourseType::where('couser_type_parent_id','=', $pid)->get();
@@ -48,15 +48,11 @@ class CourseType extends Base
             $num++;
         }
 
-            return $typelist;
+        return $typelist;
 
     }
-    /**
-     * 获取排序好的数据
-     *
-     * @param array $flag(1做好分类，2不做分类)
-     * @return bool
-     */
+
+    //前端获取排序好的数据
     public function getCouserTypeHomeList()
     {
         $courselist = CourseType::where('couser_type_parent_id','=','0')
@@ -67,20 +63,23 @@ class CourseType extends Base
         foreach ($courselist as $key=>$item) {
             $typelist[$key]['id']=$item['id'];
             $typelist[$key]['couser_type_name']=$item['couser_type_name'];
+            $typelist[$key]['couser_level']=$this->getLevelName($item->couser_type_level);
             $pid=$item['id'];
-            $chlist= CourseType::select('id','couser_type_name','couser_type_parent_id')
-                     ->where('couser_type_parent_id','=', $pid)->get();
+            $chlist= CourseType::select('id','couser_type_name','couser_type_parent_id','couser_type_level')
+                ->where('couser_type_parent_id','=', $pid)->get();
             $num2=0;
             foreach($chlist as $key2=>$value){
                 $typelist[$key]["couser_type_detail"][$key2]['id']=$value->id;
                 $typelist[$key]['couser_type_detail'][$key2]['couser_type_name']=$value->couser_type_name;
+                $typelist[$key]['couser_type_detail'][$key2]['couser_level']=$this->getLevelName($value->couser_type_level);
                 $pid=$value['id'];
-                $chlist2=  CourseType::select('id','couser_type_name','couser_type_parent_id')
+                $chlist2=  CourseType::select('id','couser_type_name','couser_type_parent_id','couser_type_level')
                     ->where('couser_type_parent_id','=', $pid)->get();
                 $num3=0;
                 foreach($chlist2 as$key3=> $value2) {
                     $typelist[$key][$key2]['couser_type_detail'][$key3]['id']=$value2->id;
                     $typelist[$key][$key2]['couser_type_detail'][$key3]['couser_type_name']=$value2->couser_type_name;
+                    $typelist[$key][$key2]['couser_type_detail'][$key3]['couser_level']=$this->getLevelName($value2->couser_type_level);
                     $num3++;
                 }
                 $num2++;
@@ -90,13 +89,17 @@ class CourseType extends Base
         return $typelist;
 
     }
-    //
-    /**
-     * 获取分好类课程类型数据的数据
-     *
-     * @param array
-     * @return bool
-     */
+    //根据状态值获取名字
+    public function getLevelName($name)
+    {
+        switch($name){
+            case '1':return "direction";
+            case '2':return "classify";
+            case '3':return "type";
+        }
+
+    }
+    //前端获取分好类课程类型数据的数据
     public function getCouserTypeLevelList()
     {
         $courselist[0] = CourseType::select('id','couser_type_name as name')->where('couser_type_level','=','1')
@@ -105,10 +108,12 @@ class CourseType extends Base
         $courselist[1] = CourseType::select('id','couser_type_name as name')->where('couser_type_level','=','2')
             ->orderBy('created_at', 'desc')
             ->get();
-        $courselist[2] = CourseType::select('id','couser_type_name as name ')->where('couser_type_level','=','3')
+        $courselist[2] = CourseType::select('id','couser_type_name as name')->where('couser_type_level','=','3')
             ->orderBy('created_at', 'desc')
             ->get();
         return $courselist;
     }
 }
+
+
 

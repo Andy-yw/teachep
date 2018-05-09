@@ -48,6 +48,8 @@ Route::group(['namespace' => 'Home'], function () {
         Route::post('setUserStartCourse', 'CourseController@setUserStartCourse');
         //收藏课程接口
         Route::post('setUserCollection', 'CourseController@setUserCollection');
+        //自章节详情文件
+        Route::get('getImageTextFileList', 'CourseController@getImageTextFileList');
 
     });
     Route::group(['prefix' => 'user'], function () {
@@ -56,7 +58,7 @@ Route::group(['namespace' => 'Home'], function () {
         //验证码接口
         Route::get('captcha/{tmp}', 'UserController@captcha');
         //注册接口
-        Route::post('register', 'UserController@register');
+        Route::get('register', 'UserController@register');
         //获取用户信息接口
         Route::post('getMyUserData', 'UserController@getMyUserData');
         //用户信息修改接口
@@ -75,7 +77,10 @@ Route::group(['namespace' => 'Home'], function () {
         Route::post('setMyIdentity', 'UserController@setMyIdentity');
         //认证信息获取接口
         Route::post('getMyIdentity', 'UserController@getMyIdentity');
-
+        //用户报告上传接口
+        Route::post('uploadUserFile', 'UserController@uploadUserFile');
+        //用户评分查看接口
+        Route::post('lookUserFile', 'UserController@lookUserFile');
         //	 Route::get('login', 'UserController@login');
     });
     Route::group(['prefix' => 'article'], function () {
@@ -112,6 +117,7 @@ Route::group(['namespace' => 'Home'], function () {
     // 用于测试
     Route::get('test', 'IndexController@test');
 });
+
 
 // Home模块下 三级模式
 Route::group(['namespace' => 'Home', 'prefix' => 'home'], function () {
@@ -257,6 +263,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'admi
         Route::get('getBackCourseList', 'CourseController@getBackCourseList');
         // 发布课程
         Route::get('create', 'CourseController@create');
+        // 课程分类获取接口
+        Route::get('getCourseTypeList', 'CourseController@getCourseTypeList');
         Route::post('store', 'CourseController@store');
         // 编辑课程
         Route::get('edit/{id}', 'CourseController@edit');
@@ -417,6 +425,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'admi
     Route::group(['prefix' => 'comment'], function () {
         // 评论列表
         Route::get('index', 'CommentController@index');
+        //获取后台评论列表
+        Route::get('getBackCommentList', 'getBackCommentList@index');
         // 删除评论
         Route::get('destroy/{id}', 'CommentController@destroy');
         // 恢复删除的评论
@@ -432,6 +442,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'admi
         Route::get('getUserList', 'UserController@getUserList');
         // 用户列表获取接口
         Route::get('getUserList', 'UserController@getUserList');
+        //获取用户详细信息
+        Route::get('getUserDetail', 'UserController@getUserDetail');
         // 添加用户
         Route::get('create', 'UserController@create');
         Route::post('store', 'UserController@store');

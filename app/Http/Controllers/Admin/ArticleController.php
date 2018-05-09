@@ -44,14 +44,7 @@ class ArticleController extends Controller
         }
 
     }
-
-    /**
-     * 添加文章
-     *
-     * @param Store $request
-     * @param Article $article
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
+    //添加文章
     public function store(Store $request, Article $article)
     {
         $data = $request->except('_token');
@@ -59,7 +52,6 @@ class ArticleController extends Controller
         if ($result) {
             $data = [
                 'success' => 1,
-
             ];
         }else{
             $data = [
@@ -71,12 +63,7 @@ class ArticleController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   //修改文章视图加载
     public function edit($id)
     {
         $data= Article::withTrashed()->find($id);
@@ -87,15 +74,7 @@ class ArticleController extends Controller
         return view('admin.article.edit', $assign);
     }
 
-    /**
-     * 编辑文章
-     *
-     * @param Store $request
-     * @param Article $articleModel
-     * @param ArticleTag $articleTagModel
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
-     */
+    //编辑文章操作
     public function update(Store $request, Article $articleModel, $id)
     {
         $data = $request->except('_token');
@@ -119,13 +98,8 @@ class ArticleController extends Controller
         return response()->json($data);
     }
 
-    /**
-     * 删除文章
-     *
-     * @param $id
-     * @param Article $articleModel
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
+
+    // 删除文章
     public function destroy($id, Article $articleModel)
     {
         $map = [
@@ -134,43 +108,8 @@ class ArticleController extends Controller
         $result = $articleModel->destroyData($map);
         if ($result) {
             // 更新缓存
-            Cache::forget('common:topArticle');
         }
         return redirect('admin/article/index');
     }
 
-    /**
-     * 恢复删除的文章
-     *
-     * @param         $id
-     * @param Article $articleModel
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function restore($id, Article $articleModel)
-    {
-        $map = [
-            'id' => $id
-        ];
-        $result = $articleModel->restoreData($map);
-        if ($result) {
-            // 更新缓存
-            Cache::forget('common:topArticle');
-        }
-        return redirect('admin/article/index');
-    }
-
-    /**
-     * 彻底删除文章
-     *
-     * @param         $id
-     * @param Article $articleModel
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function forceDelete($id, Article $articleModel)
-    {
-        $articleModel->where('id', $id)->forceDelete();
-        return redirect('admin/article/index');
-    }
 }

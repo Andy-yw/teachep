@@ -142,7 +142,7 @@
     <!--编辑器-->
     <script src="{{ asset('js/admin/ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('js/admin/ckeditor/samples/js/sample.js') }}"></script>
-    $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+
     <script>
         $(document).ready(function() {
             initSample();

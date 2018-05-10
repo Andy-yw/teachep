@@ -256,7 +256,6 @@ class UserController extends Controller
 		$remark=$request->input('remark');
 		$fileid=$request->input('file_id');
 		$data=array();
-
 		//判断是否已经提交过
 		$where['user_id']=$userid;
 		$where['image_text_id']=$image_text_id;

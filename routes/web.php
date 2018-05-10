@@ -58,7 +58,7 @@ Route::group(['namespace' => 'Home'], function () {
         //验证码接口
         Route::get('captcha/{tmp}', 'UserController@captcha');
         //注册接口
-        Route::get('register', 'UserController@register');
+        Route::post('register', 'UserController@register');
         //获取用户信息接口
         Route::post('getMyUserData', 'UserController@getMyUserData');
         //用户信息修改接口

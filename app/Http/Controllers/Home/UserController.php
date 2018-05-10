@@ -203,59 +203,49 @@ class UserController extends Controller
     }
 	//验证码图片获取接口
 	 public function captcha($tmp) {
-       //生成验证码图片的Builder对象，配置相应属性
-       $builder = new CaptchaBuilder;
-       //可以设置图片宽高及字体die;	
-       $builder->build($width = 250, $height = 70, $font = null);
-       //获取验证码的内容
-        $phrase = $builder->getPhrase();
-        //把内容存入session
-		//session_start();
-		//$_SESSION['milkcaptcha']=$phrase;
-	//dd($_SESSION['milkcaptcha']);
-     //   Session::put('milkcaptcha', $phrase); 
-		session('milkcaptcha', $phrase);
-		// Session::save(); 
-	//dd(Session::get('milkcaptcha'));
-        //生成图片
-       header("Cache-Control: no-cache, must-revalidate");
-        header('Content-Type: image/jpeg');
-     $builder->output();
+          //生成验证码图片的Builder对象，配置相应属性
+          $builder = new CaptchaBuilder;
+          //可以设置图片宽高及字体die;
+          $builder->build($width = 250, $height = 70, $font = null);
+          //获取验证码的内容
+          $phrase = $builder->getPhrase();
+          //把内容存入session
+	  	  $data['milkcaptcha']=$phrase;
+          session($data);
+          //生成图片
+          header("Cache-Control: no-cache, must-revalidate");
+          header('Content-Type: image/jpeg');
+          $builder->output();
     }
 	//验证码是否正确额（注册）
    public function register(Request $request) {
-	  /// session_start();
-	   
-        $data['msg']="__+".Session::get('milkcaptcha'); 
-           return response()->json($data,400);	
-		/*$data['user_name']=$request->input('user_name');
+		$data['user_name']=$request->input('user_name');
         $data['user_password']=bcrypt($request->input('password'));
 		$where['user_name'] = $request->input('user_name');
 		$resault= User::where($where)->first();
 		if(!empty($resault)){
             $data['state']="error";
             $data['msg']="用户名已存在！"; 
-            return response()->json($data);			
-		}
+            return response()->json($data,400);
+        }
         $code=$request->input('code');
 		if (Session::get('milkcaptcha') == $code) {
            $userModel=new User();
 		   $flag=$userModel->storeData($data);
 		   if($flag){
 			   $data['state']="success";
-			   $data['msg']=Session::get('milkcaptcha'); 
+			   $data['msg']="登陆成功";
 			   return response()->json($data);
 		   }else{
 				$data['state']="error";
-				$data['msg']="注册失败"; 
+				$data['msg']="用户名密码错误";
 				return response()->json($data,400);	
 		   }
         }else {
-           $data['state']="error";
-           $data['msg']="sss".Session::get('milkcaptcha'); 
-           return response()->json($data,400);	
-        }*/
-	    
+            $data['state'] = "error1";
+            $data['msg'] = "验证码错误";
+            return response()->json($data, 400);
+        }
 	}
 	// 用户报告上传
     public function uploadUserFile(Request $request)
@@ -294,7 +284,8 @@ class UserController extends Controller
 			else {
 				$wherefile['id']=$flag['id'];
 				$list= $UserFile->updateData($wherefile, $data);
-			}  
+			}
+           $message=array();
 			if($list){
 				$message['msg']="success";
 				return response()->json($message);
